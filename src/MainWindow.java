@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 
 public class MainWindow extends JFrame {
@@ -16,11 +14,11 @@ public class MainWindow extends JFrame {
         this.setContentPane(panel1);
         this.pack();
         Update.addActionListener(e -> {
-            String name1 = name_1.getText();
-            String score1 = score_1.getText();
+            String name1 = readTextField(name_1);
+            String score1 = readTextField(score_1);
 
-            String name2 = name_2.getText();
-            String score2 = score_2.getText();
+            String name2 = readTextField(name_2);
+            String score2 = readTextField(score_2);
 
             try {
                 createFileIfNotExist("name1.txt", name1);
@@ -30,11 +28,9 @@ public class MainWindow extends JFrame {
 
                 JOptionPane.showMessageDialog(null, "Done", "Success", JOptionPane.PLAIN_MESSAGE);
 
-
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-
         });
     }
 
@@ -42,6 +38,15 @@ public class MainWindow extends JFrame {
         File yourFile = new File(filePath);
         FileOutputStream oFile = new FileOutputStream(yourFile, false);
         oFile.write(content.getBytes());
+    }
+
+    public static String readTextField(JTextField field) {
+        try {
+            return field.getText();
+
+        } catch (NullPointerException e) {
+            return "";
+        }
     }
 
     public static void main(String[] args) {
